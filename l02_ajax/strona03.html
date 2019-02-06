@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="author" content="Dawid Wajda">
+	<meta name="description" content="3ic2">
+	<title>Strona</title>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script>
+
+		$(document).ready(function () {
+				$.ajax({
+					url: "server03.js",
+					data: { a: $('#txt1').val(), b: $('#txt2').val() },
+					type: "POST",
+					success: function (data) {
+						//czytamy odesłane z serwera dane
+						var obj = JSON.parse(data)
+						console.log(obj)
+						alert("odebrałem obliczenia z serwera")
+
+						//tu wypisz sumę w div-ie na stronie
+
+					},
+					error: function (xhr, status, error) {
+						console.log(xhr);
+					},
+				});
+
+
+				$("#kliknij").click(() => {
+					console.log('el')
+					console.log(obj.a * obj.b)
+
+				})
+			})
+
+	</script>
+	<style>
+		#kliknij{
+			width: 50px;
+			height: 50px;
+			background-color: orangered;
+
+		}
+	</style>
+</head>
+<body>
+	<input type="text" name="txt1">
+	<input type="text" name="txt2">
+	<div id="kliknij">kliknij</div>
+
+</body>
+</html>
