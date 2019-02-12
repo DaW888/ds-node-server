@@ -1,12 +1,45 @@
-#in{
-	width: 200px;
-	position: absolute;
-	top: 120px;
-	left: 50px;
+body{
+	margin: 0;
+	padding: 0;
+	width: 100vw;
+	overflow: hidden;
 }
-#out{
-	width: 800px;
+
+#left{
+	width: 50vw;
+	height: 100vh;
+	background-color: #322c42;
+	position: relative;
+	float: left;
+}
+
+#right{
+	width: 50vw;
+	height: 100vh;
+	background-color: #232226;
+	position: relative;
+	float: left;
+}
+#left > div{
 	position: absolute;
-	top: 200px;
-	left: 50px;
+	background-color: #322c42;
+	color: white;
+	font-family: Georgia, 'Times New Roman', Times, serif;
+	border-radius: 100%;
+	width: 60px;
+	height: 60px;
+	text-align: center;
+	border: 2px solid aqua;
+}
+
+#right > div{
+	position: absolute;
+	background-color: #232226;
+	color: white;
+	font-family: Georgia, 'Times New Roman', Times, serif;
+	border-radius: 100%;
+	width: 60px;
+	height: 60px;
+	text-align: center;
+	border: 2px solid aquamarine;
 }
