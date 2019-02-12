@@ -9,48 +9,44 @@
 	<title>Strona</title>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script>
-
 		$(document).ready(function () {
-			$("#kliknij").click(() => {
-
+		
+			$("#in").on("input",  () => {
 				$.ajax({
-					url: "server03.js",
-					data: { a: $('#txt1').val(), b: $('#txt2').val() },
+					url: "server04.js",
+					data: { in: $('#in').val() },
 					type: "POST",
 					success: function (data) {
-						//czytamy odesłane z serwera dane
 						var obj = JSON.parse(data)
-						console.log(obj)
-						alert("odebrałem obliczenia z serwera")
-						console.log(obj)
-						
-						dv = $("<div>").html(`dodawanie ${obj.dodawanie}<br> mnożenie: ${obj.iloczyn}`)
-						$("body").append(dv) 
-						//tu wypisz sumę w div-ie na stronie
-
+						console.log(obj.in)
+						$('#out').val(obj.in)
 					},
 					error: function (xhr, status, error) {
 						console.log(xhr);
 					},
 				});
-
 			})
+
 		})
-
 	</script>
-	<style>
-		#kliknij{
-			width: 50px;
-			height: 50px;
-			background-color: orangered;
 
+	<style>
+		#in{
+			width: 200px;
+			position: absolute;
+			top: 120px;
+			left: 50px;
+		}
+		#out{
+			width: 800px;
+			position: absolute;
+			top: 200px;
+			left: 50px;
 		}
 	</style>
 </head>
 <body>
-	<input type="text" name="txt1" id="txt1">
-	<input type="text" name="txt2" id="txt2">
-	<div id="kliknij">kliknij</div>
-
+	<input type="range" name="in" id="in" min="1" max="500" value="1">
+	<input type="range" name="out" id="out" min="1" max="500" value="1">
 </body>
 </html>

@@ -7,7 +7,7 @@ var server = http.createServer(function(req, res) {
 
     switch (req.method) {
 		case "GET":
-			fs.readFile("strona03.html", function (_error, data) {        
+			fs.readFile("strona04.html", function (_error, data) {        
 				res.writeHead(200, { 'Content-Type': 'text/html;charset=utf-8' });
 				res.write(data);
 				res.end();
@@ -37,8 +37,7 @@ function servResponse(req, res) {
 
 	req.on("end", function(data) {
 		var finish = qs.parse(allData);
-		finish.dodawanie = parseInt(finish.a) + parseInt(finish.b)
-		finish.iloczyn = parseInt(finish.b) * parseInt(finish.b)
+		console.log(finish.in)
 		res.end(JSON.stringify(finish, null, 2));
 	});
 }
