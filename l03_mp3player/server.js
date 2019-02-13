@@ -35,53 +35,40 @@ var server = http.createServer(function(req, res) {
 
     switch (req.method) {
         case "GET":
-            if (req.url === "/") {
-                fs.readFile("static/index.html", function(_error, data) {
-                    res.writeHead(200, {
-                        "Content-Type": "text/html;charset=utf-8"
-					});
-                    res.write(data);
-                    res.end();
-                });
-            } else if (req.url === "/libs/jquery-3.3.1.min.js") {
-                fs.readFile("libs/jquery-3.3.1.min.js", function(_error, data) {
-                    res.writeHead(200, {
-                        "Content-Type": "application/javascript"
-                    });
-                    res.write(data);
-                    res.end();
-                });
-            } else if (req.url === "/main.js") {
-                fs.readFile("static/main.js", function(_error, data) {
-                    res.writeHead(200, {
-                        "Content-Type": "application/javascript"
-                    });
-                    res.write(data);
-                    res.end();
-                });
-            } else if (req.url === "/net.js") {
-                fs.readFile("static/net.js", function(_error, data) {
-                    res.writeHead(200, {
-                        "Content-Type": "application/javascript"
-                    });
-                    res.write(data);
-                    res.end();
-                });
-            } else if (req.url === "/ui.js") {
-                fs.readFile("static/ui.js", function(_error, data) {
-                    res.writeHead(200, {
-                        "Content-Type": "application/javascript"
-                    });
-                    res.write(data);
-                    res.end();
-                });
-            } else if (req.url === "/style.css") {
-                fs.readFile("static/style.css", function(_error, data) {
-                    res.writeHead(200, { "Content-Type": "text/css" });
-                    res.write(data);
-                    res.end();
-                });
-            }
+        
+        let adres = req.url;
+        adres = adres.split(".");
+        let extension = adres[adres.length - 1];
+        const staticDir = "static";
+        
+        if (req.url === "/libs/jquery-3.3.1.min.js") {
+            fs.readFile("libs/jquery-3.3.1.min.js", function(_error, data) {
+                res.writeHead(200, { "Content-Type": "application/javascript" });
+                res.write(data);
+                res.end();
+            });
+        }
+        
+        if (extension == "/") {
+            fs.readFile(staticDir + "/index.html", function(_error, data) {
+                res.writeHead(200, { "Content-Type": "text/html;charset=utf-8" });
+                res.write(data);
+                res.end();
+            });
+        } else if (extension == "js" && req.url.search("jquery") < 0) {
+            fs.readFile(staticDir + req.url, function(_error, data) {
+                res.writeHead(200, { "Content-Type": "application/javascript" });
+                res.write(data);
+                res.end();
+            });
+        } else if (extension == "css") {
+            fs.readFile(staticDir + req.url, function(_error, data) {
+                res.writeHead(200, { "Content-Type": "text/css" });
+                res.write(data);
+                res.end();
+            });
+        }
+        
 
             break;
 
