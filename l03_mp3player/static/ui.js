@@ -4,18 +4,29 @@ class Ui {
     constructor() {
         console.log("konstruktor klasy Ui");
         net.doSth(); // wywołanie funkcji z innej klasy
-        this.clicks();
     }
 
-    //obsługa kliknięć w Ui
+	createDom(obj){
+        $("nav").empty()
+        $("table").empty()
+        console.log(obj)
+        obj.dirs.forEach( album => {
+            $("<div>", {
+                id: album,
+                html: album
+            }).click(()=>{
+                net.sendNextData(album);
+            }).appendTo("nav");
+        });
 
-    clicks() {
-        $("#div1").click(function() {
-            net.sendData();
-		});
-	
-	}
-	createDom(){
-		console.log("tutaj tworzenie calego htmla")
-	}
+        obj.files.forEach(file =>{
+            let td = $("<ul>",{id: file})
+            $("<td>",{
+                html: file
+            }).click(()=>{
+                console.log('elo')
+            }).appendTo(td)
+            td.appendTo("table")
+        })
+    }
 }

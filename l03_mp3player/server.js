@@ -95,20 +95,22 @@ function servResponse(req, res) {
 		var finish = qs.parse(allData);
 		console.log(finish);
 		if(finish.action === "next"){
-			fs.readdir(__dirname+"/mp3/"+allThings.dirs["CLICKED!!!"], function (err, files) {
+			fs.readdir(__dirname+"/mp3/"+finish.album, function (err, files) {
 				if (err) {
 					return console.log(err);
-				}
+                }
 				allThings.files = []
 				files.forEach(function (fileName) {
 					console.log(fileName);
 					allThings.files.push(fileName)
 					//tu dodaj foldery do wcześniej utworzonej tablicy
-				});
+                });
 				console.log(allThings)
-				// tu można od razu wywołać taką samą funkcję, która przeczyta pliki z pierwszego katalogu w tablicy
-			});
-		}
-        res.end(JSON.stringify(allThings, null, 2));
+                // tu można od razu wywołać taką samą funkcję, która przeczyta pliki z pierwszego katalogu w tablicy
+                res.end(JSON.stringify(allThings, null, 2));
+            })
+        }
+        if(finish.action === "first")
+            res.end(JSON.stringify(allThings, null, 2));
     });
 }
