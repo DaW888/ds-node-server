@@ -8,24 +8,48 @@ fs.readdir(__dirname+"/mp3", function (err, files) {
 		return console.log(err);
 	}
 	allThings.dirs = []
-	files.forEach(function (fileName) {
-		console.log(fileName);
-		allThings.dirs.push(fileName)
-		//tu dodaj foldery do wcześniej utworzonej tablicy
-	});
-	fs.readdir(__dirname+"/mp3/"+allThings.dirs[0], function (err, files) {
-		if (err) {
-			return console.log(err);
-		}
-		allThings.files = []
-		files.forEach(function (fileName) {
-			console.log(fileName);
-			allThings.files.push(fileName)
-			//tu dodaj foldery do wcześniej utworzonej tablicy
-		});
-		console.log(allThings)
-		// tu można od razu wywołać taką samą funkcję, która przeczyta pliki z pierwszego katalogu w tablicy
-	});
+    allThings.images = []
+    
+	files.forEach(function (fileName, i) {
+        console.log(fileName)
+        fs.lstat(__dirname+"/mp3/"+fileName, (err, stats)=>{
+            if(err)
+                return console.log(err)
+            console.log(`Is file ${stats.isFile()}`)
+
+            
+            if(stats.isDirectory()){
+                allThings.dirs.push(fileName)
+                if(i==2) allThings.currentAlbum = fileName
+            }
+            if(stats.isFile()){
+                console.log(fileName);
+                allThings.images.push("mp3/"+fileName)
+            }
+
+            fs.readdir(__dirname+"/mp3/"+allThings.currentAlbum, (err, files) => {
+                if (err) {
+                    return console.log(err);
+                }
+                allThings.files = []
+                allThings.sizes = []
+                files.forEach(function (fileName) {
+                    console.log(fileName);
+                    allThings.files.push(fileName)
+
+                    console.log('staty: ')
+                    allThings.sizes.push((fs.statSync(__dirname+"/mp3/"+allThings.currentAlbum+"/"+fileName).size/1000000).toFixed(2) + "MB")
+
+
+                });
+                console.log(allThings)
+                // tu można od razu wywołać taką samą funkcję, która przeczyta pliki z pierwszego katalogu w tablicy
+            });
+
+        })
+        console.log("ten" + fileName)
+
+    });
 	console.log(allThings)
 });
 
@@ -40,6 +64,7 @@ var server = http.createServer(function(req, res) {
         adres = adres.split(".");
         let extension = adres[adres.length - 1];
         const staticDir = "static";
+        console.log(extension)
         
         if (req.url === "/libs/jquery-3.3.1.min.js") {
             fs.readFile("libs/jquery-3.3.1.min.js", function(_error, data) {
@@ -64,6 +89,13 @@ var server = http.createServer(function(req, res) {
         } else if (extension == "css") {
             fs.readFile(staticDir + req.url, function(_error, data) {
                 res.writeHead(200, { "Content-Type": "text/css" });
+                res.write(data);
+                res.end();
+            });
+        } 
+        else if(extension == "jpg"){
+            fs.readFile(__dirname+req.url, function(_error, data) {
+                res.writeHead(200, { "Content-Type": "image/jpeg" });
                 res.write(data);
                 res.end();
             });
@@ -95,14 +127,17 @@ function servResponse(req, res) {
 		var finish = qs.parse(allData);
 		console.log(finish);
 		if(finish.action === "next"){
+            allThings.currentAlbum = finish.album
 			fs.readdir(__dirname+"/mp3/"+finish.album, function (err, files) {
 				if (err) {
 					return console.log(err);
                 }
-				allThings.files = []
+                allThings.files = []
+                allThings.sizes = []
 				files.forEach(function (fileName) {
-					console.log(fileName);
+                    console.log(fileName);
 					allThings.files.push(fileName)
+                    allThings.sizes.push((fs.statSync(__dirname+"/mp3/"+allThings.currentAlbum+"/"+fileName).size/1000000).toFixed(2) + "MB")                    
 					//tu dodaj foldery do wcześniej utworzonej tablicy
                 });
 				console.log(allThings)

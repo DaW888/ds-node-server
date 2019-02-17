@@ -10,23 +10,49 @@ class Ui {
         $("nav").empty()
         $("table").empty()
         console.log(obj)
-        obj.dirs.forEach( album => {
-            $("<div>", {
-                id: album,
-                html: album
+        
+        obj.images.forEach( (img, i) => {
+            $("<img>", {
+                src: "../"+img,
             }).click(()=>{
-                net.sendNextData(album);
+                net.sendNextData(obj.dirs[i]);
             }).appendTo("nav");
         });
 
-        obj.files.forEach(file =>{
-            let td = $("<ul>",{id: file})
+        let tr = $("<tr>")
+        $("<th>",{
+            html: 'Performer'
+        }).appendTo(tr)
+
+        $("<th>",{
+            html: 'Songs'
+        }).appendTo(tr)
+        tr.appendTo("table")
+
+        $("<th>",{
+            html: 'Size'
+        }).appendTo(tr)
+        tr.appendTo("table")
+
+        obj.files.forEach((file, i) =>{
+            tr = $("<tr>",{id: file})
+            $("<td>",{
+                html: obj.currentAlbum
+            }).appendTo(tr)
+
             $("<td>",{
                 html: file
             }).click(()=>{
                 console.log('elo')
-            }).appendTo(td)
-            td.appendTo("table")
+            }).appendTo(tr)
+
+            $("<td>",{
+                html: obj.sizes[i]
+            }).click(()=>{
+                console.log('elo')
+            }).appendTo(tr)
+            
+            tr.appendTo("table")
         })
     }
 }

@@ -25,7 +25,7 @@ class Net {
 
 	sendNextData(albumName){
 		$.ajax({
-			url: "server05.js",
+			url: "server.js",
 			data: { action: "next", album: albumName},
 			type: "POST",
 			success: function(data) {

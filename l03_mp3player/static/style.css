@@ -1,25 +1,44 @@
 body {
+	color: white;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     margin: 0;
     padding: 0;
     width: 100vw;
 	overflow: hidden;
 	position: relative;
+	font-size: 1.5em;
 }
 
 nav {
-	width: 25vw;
-	height: 80vh;
-	background-color: aquamarine;
+	width: 20vw;
+	height: 85vh;
+	background-color: #30304d;
 	float: left;
 	top:0;
 	position: relative;
 	overflow: auto;
+	overflow-x: hidden;
 }
+
+nav::-webkit-scrollbar{
+	display: none;
+}
+
+nav > img{
+	position: relative;
+	margin: 0 auto;
+	display: block;
+	width: 20vw;
+	height: 20vw;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+
 #main {
-    background-color: bisque;
-	width: 75vw;
+    background-color: #33333d;
+	width: 80vw;
 	float: left;
-	height: 80vh;
+	height: 85vh;
 	top:0;
 	position: relative;
 	overflow: auto;
@@ -27,8 +46,28 @@ nav {
 }
 footer{
 	position: relative;
-	top: 80vh;
+	top: 85vh;
 	width: 100vw;
-	height: 20vh;
-	background-color: blueviolet;
+	height: 15vh;
+	background-color: #30304d;
+}
+
+table{
+	margin: 5%;
+	width: 90%;
+}
+th, td{
+	text-align: center;
+	border-radius: 2%;
+
+}
+td:nth-child(3n+2){
+	cursor: pointer;
+}
+
+tr:nth-child(2n+1){
+	background-color: #920d3e;
+}
+tr:nth-child(1){
+	background-color: #1d1d2e;
 }
