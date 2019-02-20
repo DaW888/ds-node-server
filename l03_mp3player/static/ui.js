@@ -35,7 +35,11 @@ class Ui {
         tr.appendTo("table")
 
         obj.files.forEach((file, i) =>{
-            tr = $("<tr>",{id: file})
+            tr = $("<tr>",{id: file}).mouseover(function(){
+                this.style.backgroundColor = "#30304d"
+            }).mouseout(function(){
+                this.style.backgroundColor = ""
+            })
             $("<td>",{
                 html: obj.currentAlbum
             }).appendTo(tr)
@@ -43,13 +47,14 @@ class Ui {
             $("<td>",{
                 html: file
             }).click(()=>{
-                console.log('elo')
+                console.log(file)
+                $("#audio_src").attr("src", `../mp3/${obj.currentAlbum}/${file}`)
             }).appendTo(tr)
 
             $("<td>",{
                 html: obj.sizes[i]
             }).click(()=>{
-                console.log('elo')
+                console.log(file)
             }).appendTo(tr)
             
             tr.appendTo("table")

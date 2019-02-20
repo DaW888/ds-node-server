@@ -99,6 +99,12 @@ var server = http.createServer(function(req, res) {
                 res.write(data);
                 res.end();
             });
+        } else if(extension == "mp3"){
+            fs.readFile(__dirname + decodeURI(req.url), function(_error, data) {
+                res.writeHead(200, { "Content-Type": "audio/mpeg" });
+                res.write(data);
+                res.end();
+            });
         }
         
 

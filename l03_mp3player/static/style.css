@@ -49,7 +49,7 @@ footer{
 	top: 85vh;
 	width: 100vw;
 	height: 15vh;
-	background-color: #30304d;
+	background-color: #1c1c27;
 }
 
 table{
@@ -70,4 +70,11 @@ tr:nth-child(2n+1){
 }
 tr:nth-child(1){
 	background-color: #1d1d2e;
+}
+#audio{
+	background-color: red;
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 100%;
 }
