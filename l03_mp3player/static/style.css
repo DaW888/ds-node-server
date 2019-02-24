@@ -65,16 +65,62 @@ td:nth-child(3n+2){
 	cursor: pointer;
 }
 
-tr:nth-child(2n+1){
-	background-color: #920d3e;
+td > img{
+	width: 40%;
 }
+td:last-child{
+	width: 10%;
+}
+
+/* tr:nth-child(2n+1){
+	background-color: #920d3e;
+} */
+
+tr:hover{
+	background-color: #f13756;
+}
+
 tr:nth-child(1){
 	background-color: #1d1d2e;
 }
 #audio{
-	background-color: red;
 	position: absolute;
 	top: 0;
 	right: 0;
 	width: 100%;
+}
+
+#controls{
+	position: absolute;
+	top : 3vh;
+	margin: 0 auto;
+	left: 30vw;
+}
+
+#controls > img{
+	position: relative;
+	width: 10%;
+	height: 10%;
+	margin: 0 8%;
+	cursor: pointer;
+}
+
+#nameOfSong{
+	width: 30%;
+	display: block;
+	position: absolute;
+}
+
+.currentPlaying{
+	background-color: #f13756;
+}
+.notPlayingNow{
+	background-color: #33333d;
+}
+.hoverPlaying{
+	background-color: #920d3e;
+}
+
+.currentPlaying > td:last-child{
+	background-image: url("/img/fast-forward-button.png");
 }

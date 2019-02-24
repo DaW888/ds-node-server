@@ -38,7 +38,4 @@ class Net {
 		}).then((res) => {ui.createDom(JSON.parse(res))});;
 	}
 
-	doSth(){
-		console.log('dosth')
-	}
 }

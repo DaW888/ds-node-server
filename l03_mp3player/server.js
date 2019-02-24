@@ -105,7 +105,14 @@ var server = http.createServer(function(req, res) {
                 res.write(data);
                 res.end();
             });
+        }else if(extension == "png"){
+            fs.readFile(__dirname + decodeURI(req.url), function(_error, data) {
+                res.writeHead(200, { "Content-Type": "image/png" });
+                res.write(data);
+                res.end();
+            });
         }
+        
         
 
             break;

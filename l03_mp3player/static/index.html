@@ -10,6 +10,7 @@
         <script src="../libs/jquery-3.3.1.min.js"></script>
         <script src="net.js"></script>
         <script src="ui.js"></script>
+        <script src="music.js"></script>
         <script src="main.js"></script>
         <link rel="stylesheet" href="style.css" />
     </head>
@@ -19,13 +20,18 @@
             <table></table>
         </div>
         <footer>
-            <audio id="audio" controls>
+            <audio id="audio">
                 <source
-                    src="../mp3/Dawid Podsiadlo/Nie Ma Fal.mp3"
                     id="audio_src"
                     type="audio/mp3"
                 />
             </audio>
+            <p id="nameOfSong"></p>
+            <div id="controls">
+                <img src="/img/fast-rewind-button.png" alt="prevSong" id="prev">
+                <img src="/img/music-player-play.png" alt="playSong" id="play">
+                <img src="/img/fast-forward-button.png" alt="nextSong" id="next">
+            </div>
         </footer>
     </body>
 </html>
