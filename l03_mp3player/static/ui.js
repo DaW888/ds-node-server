@@ -13,101 +13,157 @@ class Ui {
         obj.images.forEach( (img, i) => {
             $("<img>", {
                 src: "../"+img,
-            }).click(()=>{
+            })
+            .click(()=>{
                 net.sendNextData(obj.dirs[i]);
-            }).appendTo("nav");
+            })
+            .appendTo("nav");
         });
 
         let tr = $("<tr>")
         $("<th>",{
             html: 'Performer'
-        }).appendTo(tr)
+        })
+        .appendTo(tr)
 
         $("<th>",{
             html: 'Songs'
-        }).appendTo(tr)
+        })
+        .appendTo(tr)
         tr.appendTo("table")
 
         $("<th>",{
             html: 'Size'
-        }).appendTo(tr)
+        })
+        .appendTo(tr)
         tr.appendTo("table")
 
         obj.files.forEach((file, i) =>{
-            tr = $("<tr>",{id: file}).click(function(){
-                console.log('dziala')
-                
-                $("tr").each( function(i){
-                    if(i==0) $(this).css("backgroundColor", '#1d1d2e')
-                    else{
-                        $(this).css({class: "notPlayingNow"})
-                        $(this).removeClass('currentPlaying')
-                        $(this).children().last().html("")
-                    } 
-                    
-                })
-
-                console.log($(this).children().last())
-                $(this).removeClass('notPlayingNow')
-                $(this).addClass('currentPlaying')
-                $("<img>").attr("src", "/img/music-player-play.png").appendTo($(this).children().last())
-                
-            })
-
-            tr.mouseover(function(){
-                $(this).addClass("hoverPlaying")
-                $("<img>").attr("src", "/img/music-player-play.png").appendTo($(this).children().last())
-            })
-            tr.mouseout(function(){
-                $(this).removeClass("hoverPlaying")
-                $(this).children().last().html("")
-            })
-
+            tr = $("<tr>",{id: file})
 
             $("<td>",{
                 html: obj.currentAlbum
             }).appendTo(tr)
+            .mouseover(function(){
+                $(this).parent().addClass("hoverPlaying")
+            })
+            .mouseout(function(){
+                $(this).parent().removeClass("hoverPlaying")
+            })
 
+
+            var pause = true
             var title = $("<td>",{
                 html: file
-            }).click(()=>{
+            })
+            .click(function(){
+                $('tr').each(function (i){
+                    if(i==0) $(this).css("backgroundColor", '#1d1d2e')
+                    else{
+                        $(this).removeClass("pausePlaying")
+                        $(this).css({class: "notPlayingNow"})
+                        $(this).removeClass('currentPlaying')
+                    }
+
+                })
+                $(this).parent().removeClass("hoverPlaying")
+                $(this).parent().removeClass("pausePlaying")
+                $(this).parent().addClass('currentPlaying')
+                console.log( $(this).parent())
                 console.log(file)
                 console.log(obj)
                 $("#audio_src").attr("src", `../mp3/${obj.currentAlbum}/${file}`)
                 $("#nameOfSong").html(file)
                 music.load()
                 music.play()
+                pause = false
+            })
+            .mouseover(function(){
+                $(this).parent().addClass("hoverPlaying")
+            })
+            .mouseout(function(){
+                $(this).parent().removeClass("hoverPlaying")
             })
             
             title.appendTo(tr)
 
             $("<td>",{
                 html: obj.sizes[i]
-            }).click(()=>{
+            })
+            .click(()=>{
                 console.log(file)
-            }).appendTo(tr)
+            })
+            .appendTo(tr)
+            .mouseover(function(){
+                $(this).parent().addClass("hoverPlaying")
+            })
+            .mouseout(function(){
+                $(this).parent().removeClass("hoverPlaying")
+            })
+
 
             $("<td>",{
                 class: "playPause",
-            }).appendTo(tr)
+            })
+            .click(function(){
+                if(pause && $("#nameOfSong").html() == ""){}
+                else if(pause){
+                    // console.log($(this).parent().hasClass('currentPlaying'))
+                    if($(this).parent().hasClass('pausePlaying')){
+                        $(this).parent().removeClass('pausePlaying')
+                        $(this).parent().addClass('currentPlaying')
+                        music.play()
+                    }
+                }
+                else {
+                    if($(this).parent().hasClass('currentPlaying')){
+                        $(this).parent().removeClass('currentPlaying')
+                        $(this).parent().addClass('pausePlaying')
+                        music.pause()
+                    }
+                }
+                pause = !pause
+            })
+            .appendTo(tr)
+            .mouseover(function(){
+                $(this).parent().addClass("hoverPlaying")
+            })
+            .mouseout(function(){
+                $(this).parent().removeClass("hoverPlaying")
+            })
             
             tr.appendTo("table")
+
+
+            $("#play").click(()=>{
+                if(pause && $("#nameOfSong").html() != ""){
+                    music.play()
+                    pause = !pause
+                }
+                else if($("#nameOfSong").html() != ""){
+                    music.pause()
+                    pause = !pause
+                }
+            })
+
+
+            
+        })
+        $("#next").click(()=>{
+            if($("#nameOfSong").html() != ""){
+                music.next(obj, $("#nameOfSong").html())
+            }
+        })
+        $("#prev").click(()=>{
+            if($("#nameOfSong").html() != ""){
+                music.prev(obj, $("#nameOfSong").html())
+            }
         })
 
-
-
-
-        var pause = false 
-        $("#play").click(()=>{
-            if(pause && $("#nameOfSong").html() != ""){
-                music.pause()
-            }
-            else if($("#nameOfSong").html() != ""){
-                music.play()
-
-            }
-            pause = !pause
-
+        $("#audio").on("ended", ()=>{
+            console.log('koniec')
+            music.next(obj, $("#nameOfSong").html())
         })
+
     }
 }

@@ -69,16 +69,16 @@ td > img{
 	width: 40%;
 }
 td:last-child{
-	width: 10%;
+	width: 5%;
 }
 
 /* tr:nth-child(2n+1){
 	background-color: #920d3e;
 } */
 
-tr:hover{
+/* tr:hover{
 	background-color: #f13756;
-}
+} */
 
 tr:nth-child(1){
 	background-color: #1d1d2e;
@@ -120,7 +120,31 @@ tr:nth-child(1){
 .hoverPlaying{
 	background-color: #920d3e;
 }
+.pausePlaying{
+	background-color: #f13756;
+}
+
+
+.hoverPlaying > td:last-child{
+	background-color: #1d1d2e;
+	background-image: url("/img/music-player-play.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 38%;
+}
 
 .currentPlaying > td:last-child{
-	background-image: url("/img/fast-forward-button.png");
+	background-color: #1d1d2e;
+	background-image: url("/img/music-player-pause-lines.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 38%;
+}
+
+.pausePlaying > td:last-child{
+	background-color: #1d1d2e;
+	background-image: url("/img/music-player-play.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 38%;
 }
