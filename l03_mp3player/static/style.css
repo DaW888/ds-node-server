@@ -148,3 +148,22 @@ tr:nth-child(1){
 	background-position: center;
 	background-size: 38%;
 }
+
+#progress{
+	width: 0;
+	position: absolute;
+	height: 1.5vh;
+	background-color: #920d3e;
+	top:0;
+	left: 0;
+}
+
+#time-duration{
+	right: 2vw;
+	/* top: 20%; */
+	top: 3vw;
+	height: 50%;
+	position: absolute;
+	width: 15%;
+	background-color: #f13756;
+}

@@ -137,6 +137,7 @@ class Ui {
 
             $("#play").click(()=>{
                 if(pause && $("#nameOfSong").html() != ""){
+
                     music.play()
                     pause = !pause
                 }
@@ -164,6 +165,13 @@ class Ui {
             console.log('koniec')
             music.next(obj, $("#nameOfSong").html())
         })
+
+        $("#audio").on("timeupdate", () => {
+            var SongDuration = $("#audio").prop("duration")
+            var currentTime = $("#audio").prop("currentTime")
+            var progressBar = currentTime / SongDuration * 100
+            $("#progress").css({width: progressBar+"%"})
+        });
 
     }
 }
