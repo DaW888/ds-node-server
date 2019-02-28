@@ -4,17 +4,19 @@ class Music{
 	}
 
 	load(){
-		document.getElementById("audio").load()
+		$("#audio").trigger('load')
 	}
 
 	play(){
 		$("#play").attr("src", "/img/music-player-pause-lines.png")
-		document.getElementById("audio").play()
+		$("#audio").trigger("play");
+		ui.pause = false
 	}
-
+	
 	pause(){
 		$("#play").attr("src", "/img/music-player-play.png")
-		document.getElementById("audio").pause()
+		$("#audio").trigger('pause');
+		ui.pause = true
 	}
 	
 	next(obj, current){
@@ -30,7 +32,6 @@ class Music{
 		$("#nameOfSong").html(obj.files[nextSong])
 		this.load()
 		this.play()
-		return false //pause
 	}
 	prev(obj, current){
 		var currentSong = obj.files.indexOf(current)
@@ -46,6 +47,5 @@ class Music{
 		$("#nameOfSong").html(obj.files[prevSong])
 		this.load()
 		this.play()
-		return false //pause
 	}
 }

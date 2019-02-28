@@ -3,6 +3,7 @@ console.log("wczytano plik Ui.js");
 class Ui {
     constructor() {
         console.log("konstruktor klasy Ui");
+        this.pause = false
     }
 
 	createDom(obj){
@@ -10,16 +11,23 @@ class Ui {
         $("table").empty()
         console.log(obj)
         
+        // Tworzneie klikalnych Albumow
         obj.images.forEach( (img, i) => {
             $("<img>", {
                 src: "../"+img,
             })
             .click(()=>{
+                $(".currentPlaying").removeClass('currentPlaying')
+                $(".pausePlaying").removeClass("pausePlaying")
+                $("#play").off("click")
+                $("#next").off("click")
+                $("#prev").off("click")
                 net.sendNextData(obj.dirs[i]);
             })
             .appendTo("nav");
         });
 
+        // Tworzenie pierwszego rzedu z naglowkami
         let tr = $("<tr>")
         $("<th>",{
             html: 'Performer'
@@ -38,9 +46,11 @@ class Ui {
         .appendTo(tr)
         tr.appendTo("table")
 
+        // Tworzenie zawartosci tabeli
         obj.files.forEach((file, i) =>{
             tr = $("<tr>",{id: file})
 
+            // Nazwa Wykonawcy
             $("<td>",{
                 html: obj.currentAlbum
             }).appendTo(tr)
@@ -51,17 +61,15 @@ class Ui {
                 $(this).parent().removeClass("hoverPlaying")
             })
 
-
-            var pause = true
+            // Nazwa Piosenki wraz z klikiem na nia, klik odtwarza piosenke od zera
             var title = $("<td>",{
                 html: file
             })
             .click(function(){
-                $('tr').each(function (i){
+                $('tr').each(function (i){  // czyszczenie / przygotowanie klasy current playing na clicku
                     if(i==0) $(this).css("backgroundColor", '#1d1d2e')
                     else{
                         $(this).removeClass("pausePlaying")
-                        $(this).css({class: "notPlayingNow"})
                         $(this).removeClass('currentPlaying')
                     }
 
@@ -76,7 +84,7 @@ class Ui {
                 $("#nameOfSong").html(file)
                 music.load()
                 music.play()
-                pause = false
+                this.pause = false
             })
             .mouseover(function(){
                 $(this).parent().addClass("hoverPlaying")
@@ -87,6 +95,7 @@ class Ui {
             
             title.appendTo(tr)
 
+            // kolumna zawierajaca rozmiar pliku
             $("<td>",{
                 html: obj.sizes[i]
             })
@@ -101,28 +110,23 @@ class Ui {
                 $(this).parent().removeClass("hoverPlaying")
             })
 
-
+            // kolumna zawierajaca przycisk play/pause sa one ustawione na background-image w odpowiednich klasach
             $("<td>",{
                 class: "playPause",
             })
             .click(function(){
-                if(pause && $("#nameOfSong").html() == ""){}
-                else if(pause){
-                    // console.log($(this).parent().hasClass('currentPlaying'))
-                    if($(this).parent().hasClass('pausePlaying')){
+                if(this.pause && $("#nameOfSong").html() == ""){}
+                    else if($(this).parent().hasClass('pausePlaying')){
                         $(this).parent().removeClass('pausePlaying')
                         $(this).parent().addClass('currentPlaying')
                         music.play()
-                    }
                 }
-                else {
-                    if($(this).parent().hasClass('currentPlaying')){
+                    else if($(this).parent().hasClass('currentPlaying')){
                         $(this).parent().removeClass('currentPlaying')
                         $(this).parent().addClass('pausePlaying')
                         music.pause()
+                        this.pause = !this.pause
                     }
-                }
-                pause = !pause
             })
             .appendTo(tr)
             .mouseover(function(){
@@ -134,28 +138,29 @@ class Ui {
             
             tr.appendTo("table")
 
-
-            $("#play").click(()=>{
-                if(pause && $("#nameOfSong").html() != ""){
-
-                    music.play()
-                    pause = !pause
-                }
-                else if($("#nameOfSong").html() != ""){
-                    music.pause()
-                    pause = !pause
-                }
-            })
-
-
-            
         })
+
+        $("#play").click(()=>{
+            if(this.pause && $("#nameOfSong").html() != ""){
+                music.play()
+                $(".pausePlaying").removeClass('pausePlaying').addClass("currentPlaying")
+            }
+            else if(!this.pause && $("#nameOfSong").html() != ""){
+                music.pause()
+                $(".currentPlaying").removeClass('currentPlaying').addClass("pausePlaying")
+            }
+        })
+
         $("#next").click(()=>{
+            $(".currentPlaying").removeClass('currentPlaying')
+            $(".pausePlaying").removeClass('pausePlaying')
             if($("#nameOfSong").html() != ""){
                 music.next(obj, $("#nameOfSong").html())
             }
         })
         $("#prev").click(()=>{
+            $(".currentPlaying").removeClass('currentPlaying')
+            $(".pausePlaying").removeClass('pausePlaying')
             if($("#nameOfSong").html() != ""){
                 music.prev(obj, $("#nameOfSong").html())
             }
@@ -166,11 +171,24 @@ class Ui {
             music.next(obj, $("#nameOfSong").html())
         })
 
-        $("#audio").on("timeupdate", () => {
-            var SongDuration = $("#audio").prop("duration")
-            var currentTime = $("#audio").prop("currentTime")
-            var progressBar = currentTime / SongDuration * 100
-            $("#progress").css({width: progressBar+"%"})
+        $("#audio").on("loadeddata", () => {
+            $("#audio").on("timeupdate", () => {
+                var songDuration = $("#audio").prop("duration")
+
+                if(isNaN(songDuration)) songDuration = 0
+                
+                var currentTime = $("#audio").prop("currentTime")
+                var progressBar = currentTime / songDuration * 100
+                $("#progress").css({ width: progressBar + "%" })                
+                var timeDurationDisplay = String(Math.floor(currentTime / 60)).padStart(2, '0') + 
+                ":" + String(Math.floor(currentTime % 60)).padStart(2, '0') +
+                ' / ' + String(Math.floor(songDuration / 60)).padStart(2, '0') + 
+                ":" + String(Math.floor(songDuration % 60)).padStart(2, '0')
+
+                console.log(timeDurationDisplay)
+                $("#time-duration").html(timeDurationDisplay)
+                // console.log($("#audio").prop('paused'));
+            })
         });
 
     }
