@@ -6,7 +6,7 @@ body {
     width: 100vw;
 	overflow: hidden;
 	position: relative;
-	font-size: 1.5em;
+	font-size: 1.8vw;
 }
 
 nav {
@@ -18,6 +18,31 @@ nav {
 	position: relative;
 	overflow: auto;
 	overflow-x: hidden;
+}
+
+#column{
+	width: 5vw;
+	height: 85vh;
+	top:0;
+	right: 0;
+	overflow: auto;
+	position: absolute;
+	background-color: #920d3e;
+}
+
+#playlist{
+	background-image: url("/img/playlist.png");
+	width: 5vw;
+	height: 5vw;
+	box-sizing: border-box;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 90%;
+	border: 4px solid #1c1c27;
+}
+#playlist:hover{
+	border: 4px solid #f13756;
+
 }
 
 nav::-webkit-scrollbar{
@@ -36,7 +61,7 @@ nav > img{
 
 #main {
     background-color: #33333d;
-	width: 80vw;
+	width: 75vw;
 	float: left;
 	height: 85vh;
 	top:0;
@@ -65,11 +90,12 @@ td:nth-child(3n+2){
 	cursor: pointer;
 }
 
-td > img{
-	width: 40%;
-}
 td:last-child{
 	width: 5%;
+}
+td:nth-last-child(2){
+	width: 5%;
+	cursor: pointer;
 }
 
 /* tr:nth-child(2n+1){
@@ -147,6 +173,13 @@ tr:nth-child(1){
 .pausePlaying > td:last-child{
 	background-color: #1d1d2e;
 	background-image: url("/img/music-player-play.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 38%;
+}
+
+.hoverPlaying > td:nth-last-child(2), .currentPlaying > td:nth-last-child(2), .pausePlaying > td:nth-last-child(2){
+	background-image: url("/img/add2.png");
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: 38%;

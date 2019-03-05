@@ -2,8 +2,6 @@ console.log("wczytano plik Net.js");
 
 class Net {
 	constructor() {
-		this.a = 100; // użycie zmiennych
-		this.b = 200;
 		console.log("konstruktor klasy Net");
 		this.sendFirstData();
 	}
@@ -35,7 +33,23 @@ class Net {
 			error: function(xhr, status, error) {
 				console.log(xhr);
 			},
-		}).then((res) => {ui.createDom(JSON.parse(res))});;
+		}).then((res) => {ui.createDom(JSON.parse(res))});
+	}
+
+	sendPlaylist(elementData){ //elementData : album, file, size - ktory jest Stringiem stworzony z JSON.stringify
+		$.ajax({
+			url: "server.js",
+			data: { action: "playlist", playlist: elementData},
+			type: "POST",
+			contentType: 'application/json; charset=UTF-8',
+			success: function(data) {
+				var obj = JSON.parse(data);
+				console.log(obj);
+			},
+			error: function(xhr, status, error) {
+				console.log(xhr);
+			},
+		});
 	}
 
 }

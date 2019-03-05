@@ -9,6 +9,7 @@ fs.readdir(__dirname+"/mp3", function (err, files) {
 	}
 	allThings.dirs = []
     allThings.images = []
+    allThings.playlist = []
     
 	files.forEach(function (fileName, i) {
         console.log(fileName)
@@ -136,7 +137,7 @@ function servResponse(req, res) {
     });
 
     req.on("end", function(data) {
-		console.log(allThings)
+		// console.log(allThings)
 		var finish = qs.parse(allData);
 		console.log(finish);
 		if(finish.action === "next"){
@@ -160,5 +161,11 @@ function servResponse(req, res) {
         }
         if(finish.action === "first")
             res.end(JSON.stringify(allThings, null, 2));
+        if(finish.action === "playlist"){
+            console.log("dodaje playlisteee")
+            allThings.playlist = JSON.parse(finish.playlist)
+            console.log(allThings.playlist)
+            res.end(JSON.stringify(allThings, null, 2));
+        }
     });
 }
