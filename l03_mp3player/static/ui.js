@@ -349,3 +349,5 @@ class Ui {
         })
     }
 }
+//https://stackoverflow.com/questions/27195402/irregular-polygons-that-can-be-inscribed-on-a-circle-html5-canvas
+//https://stackoverflow.com/questions/16494262/how-to-draw-a-circle-with-centered-fadeing-out-gradients-with-html5-canvas
