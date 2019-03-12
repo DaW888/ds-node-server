@@ -6,11 +6,16 @@ $(document).ready(function () {
    ui = new Ui() // utworzenie obiektu klasy Ui
    music = new Music()
    visual = new Visual()
-
+   
+   var off = true
    $(document).keyup((e)=>{
       console.log(e.keyCode)
-      if(e.keyCode === 32){
-         $("#overlay").css("display", "block")
+      if(e.keyCode === 32 && off){
+         $("#overlay").css("display", "flex")
+         off = false
+      } else if(e.keyCode === 32 && !off){
+         $("#overlay").css("display", "none")
+         off = true
       }
    })
 }) 
